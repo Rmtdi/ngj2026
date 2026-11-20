@@ -13,7 +13,7 @@ namespace Framework.Player
         public Rigidbody2D rb;
         public Vector2 inputDirection;
         public GameObject player;
-        public float speed = 0.05f;
+        public float speed = 10;
 
         public void Awake()
         {
@@ -42,7 +42,7 @@ namespace Framework.Player
 
         public void Move()
         {
-            rb.velocity+=new Vector2()
+            rb.velocity += new Vector2(inputDirection.x * speed * Time.deltaTime, inputDirection.y * speed *Time.deltaTime);
         }
     }
 }
