@@ -1,0 +1,395 @@
+fileFormatVersion: 2
+guid: dc94d59c6e2063447ae60578978542cf
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_0"
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 20
+        width: 38
+        height: 39
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d204f471d9fedc747b5a2f6360183b46
+      internalID: 1839252689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_1"
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 20
+        width: 38
+        height: 39
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9df042feb3a2794d949024e0e3c9351
+      internalID: -458738770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_2"
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 20
+        width: 38
+        height: 39
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ded8fc3772801a42949c1a067b72a78
+      internalID: 822880611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_3"
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 20
+        width: 38
+        height: 39
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30533b50f3f4a2a49a2a1eb876dbe916
+      internalID: -528289734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_4"
+      rect:
+        serializedVersion: 2
+        x: 268
+        y: 20
+        width: 36
+        height: 39
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 07026d277fb780f45bf0695913376312
+      internalID: 2059347943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_5"
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 20
+        width: 35
+        height: 39
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33d7d2d17169b9e438bf8bab5cf43290
+      internalID: 2091142114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_6"
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 20
+        width: 36
+        height: 39
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f06838af9417b2e4cbef4d816efc3ba3
+      internalID: 1272489664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_7"
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 20
+        width: 38
+        height: 39
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0306abec62504f548b4ba88f0fd2c72d
+      internalID: 1971633502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_8"
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 20
+        width: 38
+        height: 39
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05cc7ce90220d68429767900b30ea91a
+      internalID: 948518209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_9"
+      rect:
+        serializedVersion: 2
+        x: 586
+        y: 20
+        width: 38
+        height: 39
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e40fb512d4f9e2043adda34c82bb3494
+      internalID: -307777404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_10"
+      rect:
+        serializedVersion: 2
+        x: 650
+        y: 20
+        width: 38
+        height: 39
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03004ad5cf677cc419870c54fc3e7bce
+      internalID: 2026877030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_0": 1839252689
+      "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_1": -458738770
+      "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_10": 2026877030
+      "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_2": 822880611
+      "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_3": -528289734
+      "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_4": 2059347943
+      "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_5": 2091142114
+      "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_6": 1272489664
+      "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_7": 1971633502
+      "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_8": 948518209
+      "Sprite-0002-Recovered-Recovered\u80CC\u9762\u653B\u51FB-Sheet-exportbeimiangongji_9": -307777404
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
