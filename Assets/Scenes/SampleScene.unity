@@ -18021,7 +18021,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 8.3252
+  orthographic size: 4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -18472,7 +18472,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!156049354 &746706380
 Grid:
   m_ObjectHideFlags: 0
@@ -18660,21 +18660,21 @@ MonoBehaviour:
   - key: Wall_Rock
     clip: {fileID: 8300000, guid: fc294205842f1d04e98407d6737c8763, type: 3}
     volume: 1
-    pitch: 0.1
+    pitch: 1
     loop: 0
     spatialBlend: 0
     mixerGroup: {fileID: 0}
   - key: Wall_Loose
     clip: {fileID: 8300000, guid: 720779d1657026d4fb024c5606c6bd5f, type: 3}
     volume: 1
-    pitch: 0.1
+    pitch: 1
     loop: 0
     spatialBlend: 0
     mixerGroup: {fileID: 0}
   - key: Wall_Energy
     clip: {fileID: 8300000, guid: 497beb6a2d33020479421ab2256cf2ed, type: 3}
     volume: 1
-    pitch: 0.1
+    pitch: 1
     loop: 0
     spatialBlend: 0
     mixerGroup: {fileID: 0}
@@ -18997,7 +18997,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1091715258}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 29846b34cc779f246a02c48235576dab, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -19020,7 +19020,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.041116506, y: -0.24129051}
+  m_Offset: {x: -0.027849406, y: -0.24129051}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -19031,7 +19031,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.57740176, y: 0.646927}
+  m_Size: {x: 0.43588626, y: 0.646927}
   m_EdgeRadius: 0
 --- !u!1 &1187064515
 GameObject:
@@ -19063,6 +19063,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
   m_MoveRepeatDelay: 0.5
   m_MoveRepeatRate: 0.1
   m_XRTrackingOrigin: {fileID: 0}
@@ -19159,9 +19160,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 1
   m_FollowOffset: {x: 0, y: 0, z: -10}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_XDamping: 0
+  m_YDamping: 0
+  m_ZDamping: 0
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -20479,7 +20480,7 @@ SpriteRenderer:
   m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1630530584
@@ -20575,7 +20576,7 @@ MonoBehaviour:
   m_Follow: {fileID: 1091715262}
   m_Lens:
     FieldOfView: 34
-    OrthographicSize: 8.3252
+    OrthographicSize: 4
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
