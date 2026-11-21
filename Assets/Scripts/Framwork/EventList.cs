@@ -10,8 +10,8 @@ namespace Framework
         
     }
 
-    public struct MoveByInputEvent : IEvent
+    public struct WallCollectedEvent : IEvent
     {
-        private MoveDirection _moveDirection;
+        public GameObject RobotGO;
     }
 }

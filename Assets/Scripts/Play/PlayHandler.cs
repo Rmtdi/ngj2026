@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Framework;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using MoveDirection = Tools.MoveDirection;
@@ -10,10 +11,13 @@ namespace Play
 
         public PlayerInputController _inputControler;
         public Rigidbody2D rb;
+        public GameObject RobotGO;
         public float speed;
 
-        [Header("探测墙体")] [Tooltip("从角色中心算起的探测距离（单位=格）")] [SerializeField]
+        [Header("探测墙体距离")] [Tooltip("从角色中心算起的探测距离（单位=格）")] [SerializeField]
         private float detectDistance;
+        [Header("获取墙体距离")] [Tooltip("从角色中心算起的探测距离（单位=格）")] [SerializeField]
+        private float collectDistance;
 
         [Tooltip("射线只检测这些层。默认 Everything；建议只勾 Wall 层，或者排除 Player 层")]
         [SerializeField]
@@ -41,6 +45,7 @@ namespace Play
             // 用基类 Collider2D，Box / Circle / Capsule 都能取到
             _selfCollider = GetComponent<Collider2D>();
             rb = GetComponent<Rigidbody2D>();
+            RobotGO = this.gameObject;
 
             if (_selfCollider == null)
             {
@@ -78,6 +83,36 @@ namespace Play
             g.Right.canceled += _ => Release(MoveDirection.Right);
 
             g.Detect.started += DetectWall;
+            g.Collect.started += CollectWall;
+        }
+
+        private void CollectWall(InputAction.CallbackContext obj)
+        {
+            var dir = new Vector2(_faceDir.x, _faceDir.y);
+            if (dir == Vector2.zero) return;
+
+            var origin = GetRayOrigin(dir, out var edge);
+
+            // detectDistance 以“角色中心”为准；起点已经在碰撞箱边缘，所以要扣掉自身半宽
+            var reach = Mathf.Max(0f, detectDistance - edge);
+
+            var hit = default(RaycastHit2D);
+            if (reach > 0f) hit = Physics2D.Raycast(origin, dir, reach, hitMask);
+
+            Debug.DrawRay(transform.position, dir * collectDistance, hit ? Color.green : Color.cyan, 0.5f);
+
+            if (!hit)
+            {
+                Debug.Log($"[Detect] {name}（实例 {GetInstanceID()}）没命中：detectDistance={collectDistance}，自身半宽 {edge:F2}，实际射线长 {reach:F2}", this);
+                return;
+            }
+
+            Debug.Log($"[Detect] 命中 {hit.collider.name} tag={hit.collider.tag}，distance={hit.distance:F2}（距中心 {edge + hit.distance:F2}）", hit.collider);
+
+            switch (hit.collider.tag)
+            {
+                case "LooseWall": EventBus.Publish(new WallCollectedEvent{RobotGO = gameObject}); break;
+            }
         }
 
         private void DetectWall(InputAction.CallbackContext obj)
