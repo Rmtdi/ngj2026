@@ -119,6 +119,9 @@ namespace Play
                 case "LooseWall": Debug.Log("LooseWall");
                     AudioManager.Instance.PlayByDistance("Wall_Loose", reach);
                     break;
+                case "EnergyWall": Debug.Log("EnergyWall");
+                    AudioManager.Instance.PlayByDistance("Wall_Energy", reach);
+                    break;
             }
         }
 

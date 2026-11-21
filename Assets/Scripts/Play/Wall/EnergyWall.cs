@@ -1,11 +1,13 @@
 using Framework;
+using Play.General;
 using UnityEngine;
 
 namespace Play.DestructibleWall
 {
     /// <summary>
-    /// 能源物质：被采集（R）命中即通关。
-    /// 这里只负责"广播 EnergyCollectedEvent"，具体播胜利动画 / 切场景交给上层监听。
+    /// 能源物质：被采集（R）命中即通关，切到下一关。
+    /// 注意：只调 SceneLoader.LoadScene 一次——它内部会自动卸掉当前场景，
+    /// 不要先 UnloadScene 再 LoadScene（那样第二次调用会因为 IsLoading 被忽略，导致黑屏没场景）。
     /// </summary>
     public class EnergyWall : CollectableWall
     {
@@ -14,13 +16,31 @@ namespace Play.DestructibleWall
         [SerializeField]
         private bool disappearAfterCollected = true;
 
+        [Header("通关后")]
+        [Tooltip("采集到能源后加载的场景名（必须在 Build Settings 里）")]
+        [SerializeField]
+        private string nextScene = "The Second Level";
+
+        [Tooltip("进入下一关时玩家的出生位置")]
+        [SerializeField]
+        private Vector3 nextSpawnPosition = Vector3.zero;
+
         protected override void OnCollected(Vector3 hitPoint)
         {
             EventBus.Publish(new EnergyCollectedEvent(hitPoint));
 
             if (disappearAfterCollected) BreakSelf(hitPoint);
 
-            Debug.Log($"[EnergyWall] {name} 被采集，已广播 EnergyCollectedEvent", this);
+            Debug.Log($"[EnergyWall] {name} 被采集，加载下一关：{nextScene}", this);
+            
+            if (SceneLoader.Instance == null)
+            {
+                Debug.LogError("[EnergyWall] 找不到 SceneLoader，无法切关。", this);
+                return;
+            }
+
+            // 一句就够：LoadScene 会自动卸载当前场景
+            SceneLoader.Instance.LoadScene(nextScene, nextSpawnPosition);
         }
     }
 }
