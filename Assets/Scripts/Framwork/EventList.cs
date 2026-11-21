@@ -10,11 +10,6 @@ namespace Framework
         
     }
 
-    public struct WallCollectedEvent : IEvent
-    {
-        public GameObject RobotGO;
-    }
-
     /// <summary>
     /// 采集（R）命中了某个物体。
     /// 关键点：事件里必须带上「被击中的是哪一个」，否则所有同名墙都会一起响应。

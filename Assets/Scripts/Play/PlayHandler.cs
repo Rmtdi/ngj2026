@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Framework;
+using Play.General;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using MoveDirection = Tools.MoveDirection;
@@ -112,7 +113,12 @@ namespace Play
 
             switch (hit.collider.tag)
             {
-                case "RockWall": Debug.Log("RockWall"); break;
+                case "RockWall": Debug.Log("RockWall");
+                    AudioManager.Instance.PlayByDistance("Wall_Rock", reach);
+                    break;
+                case "LooseWall": Debug.Log("LooseWall");
+                    AudioManager.Instance.PlayByDistance("Wall_Loose", reach);
+                    break;
             }
         }
 
