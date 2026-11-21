@@ -2,7 +2,7 @@
 {
     public enum WallStyle
     {
-        NormalWall,LooseWall,LavaWall
+        NormalWall,LooseWall,FinalWall
     }
 
     public enum MoveDirection
