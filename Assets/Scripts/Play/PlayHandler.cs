@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Unity.VisualScripting;
 using Unity.XR.Oculus.Input;
 using UnityEditor.SceneManagement;
@@ -16,13 +16,12 @@ namespace Play
 
         public PlayerInputController _inputControler;
         public Rigidbody2D rb;
-        public Vector2 inputDirection;
-        public Vector2 currentDirection;
         public float speed;
 
         //用栈来存输入的按键，保证后输入的为当前方向
         private readonly List<MoveDirection> _pressed = new List<MoveDirection>();
         private MoveDirection? _current;
+        private Vector3 _faceDir;
 
         public void OnEnable()
         {
@@ -53,6 +52,34 @@ namespace Play
             g.Down.canceled += _ => Release(MoveDirection.Down);
             g.Left.canceled += _ => Release(MoveDirection.Left);
             g.Right.canceled += _ => Release(MoveDirection.Right);
+
+            g.Detect.started += DetectWall;
+        }
+
+        private void DetectWall(InputAction.CallbackContext obj)
+        {
+            switch (_current)
+            {
+                case MoveDirection.Up :
+                    _faceDir = new Vector3(0, 1);
+                    break;
+                case MoveDirection.Down:
+                    _faceDir = new Vector3(0, -1);
+                    break;
+                case MoveDirection.Left:
+                    _faceDir = new Vector3(-1, 0);
+                    break;
+                case MoveDirection.Right:
+                    _faceDir = new Vector3(1, 0);
+                    break;
+            }
+            if (Physics.Raycast(transform.position, _faceDir, out RaycastHit hit))
+            {
+                if (hit.transform.CompareTag("NormalWall"))
+                {
+                    Debug.Log("NormalWall");
+                }
+            }
         }
 
         void Press(MoveDirection dir)
