@@ -11,17 +11,19 @@ namespace Play
 
         public PlayerInputController _inputControler;
         public Rigidbody2D rb;
-        public GameObject RobotGO;
         public float speed;
 
-        [Header("探测墙体距离")] [Tooltip("从角色中心算起的探测距离（单位=格）")] [SerializeField]
+        [Header("探测墙体")] [Tooltip("从角色中心算起的探测距离（单位=格）")] [SerializeField]
         private float detectDistance;
-        [Header("获取墙体距离")] [Tooltip("从角色中心算起的探测距离（单位=格）")] [SerializeField]
-        private float collectDistance;
 
         [Tooltip("射线只检测这些层。默认 Everything；建议只勾 Wall 层，或者排除 Player 层")]
         [SerializeField]
         private LayerMask hitMask = ~0;
+
+        [Header("采集墙体")]
+        [Tooltip("采集检测距离（策划案 3.3 三：向面前 0-1 个身位检查）")]
+        [SerializeField]
+        private float collectDistance = 1f;
 
         //用栈来存输入的按键，保证后输入的为当前方向
         private readonly List<MoveDirection> _pressed = new List<MoveDirection>();
@@ -45,7 +47,6 @@ namespace Play
             // 用基类 Collider2D，Box / Circle / Capsule 都能取到
             _selfCollider = GetComponent<Collider2D>();
             rb = GetComponent<Rigidbody2D>();
-            RobotGO = this.gameObject;
 
             if (_selfCollider == null)
             {
@@ -86,35 +87,6 @@ namespace Play
             g.Collect.started += CollectWall;
         }
 
-        private void CollectWall(InputAction.CallbackContext obj)
-        {
-            var dir = new Vector2(_faceDir.x, _faceDir.y);
-            if (dir == Vector2.zero) return;
-
-            var origin = GetRayOrigin(dir, out var edge);
-
-            // detectDistance 以“角色中心”为准；起点已经在碰撞箱边缘，所以要扣掉自身半宽
-            var reach = Mathf.Max(0f, detectDistance - edge);
-
-            var hit = default(RaycastHit2D);
-            if (reach > 0f) hit = Physics2D.Raycast(origin, dir, reach, hitMask);
-
-            Debug.DrawRay(transform.position, dir * collectDistance, hit ? Color.green : Color.cyan, 0.5f);
-
-            if (!hit)
-            {
-                Debug.Log($"[Detect] {name}（实例 {GetInstanceID()}）没命中：detectDistance={collectDistance}，自身半宽 {edge:F2}，实际射线长 {reach:F2}", this);
-                return;
-            }
-
-            Debug.Log($"[Detect] 命中 {hit.collider.name} tag={hit.collider.tag}，distance={hit.distance:F2}（距中心 {edge + hit.distance:F2}）", hit.collider);
-
-            switch (hit.collider.tag)
-            {
-                case "LooseWall": EventBus.Publish(new WallCollectedEvent{RobotGO = gameObject}); break;
-            }
-        }
-
         private void DetectWall(InputAction.CallbackContext obj)
         {
             var dir = new Vector2(_faceDir.x, _faceDir.y);
@@ -142,6 +114,32 @@ namespace Play
             {
                 case "RockWall": Debug.Log("RockWall"); break;
             }
+        }
+
+        private void CollectWall(InputAction.CallbackContext obj)
+        {
+            var dir = new Vector2(_faceDir.x, _faceDir.y);
+            if (dir == Vector2.zero) return;
+
+            var origin = GetRayOrigin(dir, out var edge);
+            var reach = Mathf.Max(0f, collectDistance - edge);
+
+            var hit = default(RaycastHit2D);
+            if (reach > 0f) hit = Physics2D.Raycast(origin, dir, reach, hitMask);
+
+            if (!hit)
+            {
+                Debug.Log("[Collect] 前方没有可采集的物体");
+                return;
+            }
+
+            // 命中点在碰撞面上，往角色方向收一点，保证 WorldToCell 落在被击中的那一格
+            var hitPoint = hit.point - dir * 0.02f;
+
+            Debug.Log($"[Collect] 命中 {hit.collider.name}（{hit.collider.GetType().Name}），distance={hit.distance:F2}，hitPoint={hitPoint}", hit.collider);
+
+            // 只把“打中的是哪一个”放进事件，由每面墙自己决定要不要响应
+            EventBus.Publish(new WallCollectedEvent(hit.collider.gameObject, hitPoint));
         }
 
         /// <summary>沿 dir 把射线起点推到自身碰撞箱边缘外一点，并返回这段偏移长度。</summary>
