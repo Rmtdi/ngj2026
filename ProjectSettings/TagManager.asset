@@ -6,6 +6,7 @@ TagManager:
   tags:
   - RockWall
   - LooseWall
+  - EnergyWall
   layers:
   - Default
   - TransparentFX

@@ -28,4 +28,19 @@ namespace Framework
             HitPoint = hitPoint;
         }
     }
+
+    /// <summary>
+    /// 采集到能源物质（策划案：能源物质 → 获得胜利）。
+    /// 上层监听这个事件去播胜利演出 / 切结算场景。
+    /// </summary>
+    public struct EnergyCollectedEvent : IEvent
+    {
+        /// <summary>能源被采集的位置。</summary>
+        public Vector3 HitPoint;
+
+        public EnergyCollectedEvent(Vector3 hitPoint)
+        {
+            HitPoint = hitPoint;
+        }
+    }
 }
