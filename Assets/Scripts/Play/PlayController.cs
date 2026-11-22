@@ -1,5 +1,5 @@
-using Framework;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using MoveDirection = Tools.MoveDirection;
 
 namespace Play
@@ -27,6 +27,7 @@ namespace Play
         private Animator _animator;
         private PlayHandler _playHandler;
         private SpriteRenderer _spriteRenderer;
+        private PlayerInputController _input;
 
         // 朝向：没有输入时保持上一次朝向
         private bool _isUp;
@@ -42,17 +43,20 @@ namespace Play
             _animator = GetComponent<Animator>();
             _playHandler = GetComponent<PlayHandler>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            _input = new PlayerInputController();
         }
 
         public void OnEnable()
         {
-            EventBus.Subscribe<WallCollectedEvent>(WallCollect);
+            // 收集动画由输入直接驱动：有没有打中墙都播
+            _input.Gameplay.Enable();
+            _input.Gameplay.Collect.started += OnCollectPressed;
         }
 
         public void OnDisable()
         {
-            // EventBus 是静态的，必须成对退订
-            EventBus.Unsubscribe<WallCollectedEvent>(WallCollect);
+            _input.Gameplay.Collect.started -= OnCollectPressed;
+            _input.Gameplay.Disable();
         }
 
         public void Update()
@@ -98,8 +102,8 @@ namespace Play
             }
         }
 
-        /// <summary>收到采集事件：进入收集动作（同一时间只播一次）。</summary>
-        private void WallCollect(WallCollectedEvent obj)
+        /// <summary>按下收集键就进入收集动作（同一时间只播一次），不管有没有打中可破坏墙壁。</summary>
+        private void OnCollectPressed(InputAction.CallbackContext context)
         {
             if (_collecting) return;
 

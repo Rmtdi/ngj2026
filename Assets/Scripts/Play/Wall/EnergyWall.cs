@@ -27,8 +27,7 @@ namespace Play.DestructibleWall
 
         protected override void OnCollected(Vector3 hitPoint)
         {
-            //TODO：播放胜利音频
-            //AudioManager.Instance.Play("");
+            AudioManager.Instance.Play("Win");
             EventBus.Publish(new EnergyCollectedEvent(hitPoint));
 
             if (disappearAfterCollected) BreakSelf();

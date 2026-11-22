@@ -407,7 +407,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - key: Wall_Rock
-    clip: {fileID: 8300000, guid: fc294205842f1d04e98407d6737c8763, type: 3}
+    clip: {fileID: 8300000, guid: be82e12acb3322b4ba26a306db7bd38f, type: 3}
     volume: 1
     pitch: 1
     loop: 0
@@ -428,8 +428,22 @@ MonoBehaviour:
     spatialBlend: 0
     mixerGroup: {fileID: 0}
   - key: Ground_Rock
-    clip: {fileID: 8300000, guid: e470a3621f846b744aa9df56563632da, type: 3}
-    volume: 0.8
+    clip: {fileID: 8300000, guid: e289fc935028cd449a589f290193ff3a, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 1
+    spatialBlend: 0
+    mixerGroup: {fileID: 0}
+  - key: Win
+    clip: {fileID: 8300000, guid: 6ddfd79cfa6fb924eb7d9428650a9695, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    spatialBlend: 0
+    mixerGroup: {fileID: 0}
+  - key: Break_Wall
+    clip: {fileID: 8300000, guid: ed3b0059e82ed8b4db4975213e7fb7ae, type: 3}
+    volume: 0.25
     pitch: 1
     loop: 0
     spatialBlend: 0
@@ -438,13 +452,13 @@ MonoBehaviour:
   masterVolume: 1
   distanceBands:
   - maxDistance: 1
-    volume: 1
+    volume: 0.4
   - maxDistance: 2
-    volume: 0.75
+    volume: 0.1
   - maxDistance: 4
-    volume: 0.5
+    volume: 0.05
   - maxDistance: 5
-    volume: 0.25
+    volume: 0.01
   unitsPerBody: 1
 --- !u!4 &830926649
 Transform:
@@ -780,6 +794,7 @@ MonoBehaviour:
   retryInterval: 0.2
   deadZone: 0.2
   origin: {fileID: 0}
+  offset: {x: 0, y: -0.4, z: 0}
 --- !u!114 &1091715310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -796,7 +811,6 @@ MonoBehaviour:
   volume: 0.8
   pitchJitter: 0.08
   feetOffset: {x: 0, y: -0.3, z: 0}
-  minMoveSpeed: 0.1
   rockKey: Ground_Rock
   defaultKey: Ground_Rock
 --- !u!114 &1091715320

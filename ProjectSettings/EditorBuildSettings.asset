@@ -17,5 +17,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/The Second Level.unity
     guid: fc5f1a836584a1740a0723de7e588c15
+  - enabled: 1
+    path: Assets/Scenes/Final Scene.unity
+    guid: 82704a102c408a24abfc7162f79d453f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: d2846ebf82d3c69408a194f932368435, type: 3}

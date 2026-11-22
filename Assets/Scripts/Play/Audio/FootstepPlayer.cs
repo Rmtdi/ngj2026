@@ -28,11 +28,6 @@ namespace Play
         [SerializeField]
         private Vector3 feetOffset = new Vector3(0f, -0.3f, 0f);
 
-        [Header("移动判定")]
-        [Tooltip("实际位移速度低于这个值就当作没在走（贴着墙按方向键时不会响）")]
-        [SerializeField, Min(0f)]
-        private float minMoveSpeed = 0.1f;
-
         [Header("地面标签 → 音效Key")]
         [SerializeField]
         private string rockKey = AudioManager.Keys.GroundRock;
@@ -43,7 +38,6 @@ namespace Play
 
         private PlayHandler _handler;
         private float _stepTimer;
-        private Vector3 _lastPosition;
 
         private readonly List<Tilemap> _grounds = new List<Tilemap>();
         private float _refreshTimer;
@@ -51,22 +45,16 @@ namespace Play
         private void Awake()
         {
             _handler = GetComponent<PlayHandler>();
-            _lastPosition = transform.position;
         }
 
         private void Update()
         {
-            // 用实际位移判断有没有真的在动：贴着墙按方向键时位移是 0，就不出声
-            var delta = transform.position - _lastPosition;
-            _lastPosition = transform.position;
-
-            var actualSpeed = Time.deltaTime > 0f ? delta.magnitude / Time.deltaTime : 0f;
-            var inputMoving = _handler != null && _handler.pressed.Count > 0;
-            var moving = inputMoving && actualSpeed > minMoveSpeed;
+            var moving = _handler != null && _handler.pressed.Count > 0;
 
             if (!moving)
             {
                 // 停下来的第一步要立刻响
+                PauseStep();
                 _stepTimer = 0f;
                 return;
             }
@@ -84,7 +72,12 @@ namespace Play
 
             var pitch = 1f + Random.Range(-pitchJitter, pitchJitter);
 
-            AudioManager.Instance?.Play(key, volume, pitch);
+            AudioManager.Instance?.PlayFootstepOneShot(key, volume, pitch);
+        }
+
+        private void PauseStep()
+        {
+            AudioManager.Instance?.StopFootstep();
         }
 
         /// <summary>根据脚下地面对象的标签（没标签则用对象名）决定播哪个音效。</summary>

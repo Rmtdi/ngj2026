@@ -1,3 +1,4 @@
+using Play.General;
 using UnityEngine;
 
 namespace Play.DestructibleWall
@@ -12,8 +13,7 @@ namespace Play.DestructibleWall
         {
             Debug.Log($"[LooseWall] {name} 采集成功，整面墙被破坏", this);
             
-            //TODO：播放挖墙音频
-            //AudioManager.Instance.Play("");
+            AudioManager.Instance.Play("Break_Wall");
             BreakSelf();
         }
     }

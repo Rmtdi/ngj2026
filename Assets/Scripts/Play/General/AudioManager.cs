@@ -307,6 +307,32 @@ namespace Play.General
             if (_footstepSource != null) _footstepSource.Stop();
         }
 
+        /// <summary>
+        /// 脚步单次播放：走专用的脚步音源，StopFootstep 能立刻把它掐掉。
+        /// Play() 用的是共享音源上的 PlayOneShot，那种是停不掉的。
+        /// </summary>
+        public void PlayFootstepOneShot(string key, float volumeScale = 1f, float pitchScale = 1f)
+        {
+            if (!TryGet(key, out var sound)) return;
+
+            if (_footstepSource == null)
+            {
+                var go = new GameObject("Footstep");
+                go.transform.SetParent(transform, false);
+
+                _footstepSource = go.AddComponent<AudioSource>();
+                _footstepSource.playOnAwake = false;
+                _footstepSource.loop = false;
+                _footstepSource.spatialBlend = 0f;
+            }
+
+            _footstepSource.loop = false;
+            _footstepSource.outputAudioMixerGroup = sound.mixerGroup;
+            _footstepSource.spatialBlend = sound.spatialBlend;
+            _footstepSource.pitch = sound.pitch * pitchScale;
+            _footstepSource.PlayOneShot(sound.clip, Mathf.Max(0f, sound.volume * volumeScale));
+        }
+
         // ------------------------------------------------------------------
         // 3.3 四、标记点：每秒响一次，强弱随玩家与标记点的距离变化
         // ------------------------------------------------------------------

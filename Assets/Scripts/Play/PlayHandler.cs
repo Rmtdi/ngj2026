@@ -117,16 +117,19 @@ namespace Play
 
             Debug.Log($"[Detect] 命中 {hit.collider.name} tag={hit.collider.tag}，distance={hit.distance:F2}（距中心 {edge + hit.distance:F2}）", hit.collider);
 
+            // 真正用于距离分级的距离：玩家中心 → 命中点
+            var distanceToWall = edge + hit.distance;
+
             switch (hit.collider.tag)
             {
                 case "RockWall": Debug.Log("RockWall");
-                    AudioManager.Instance?.PlayByDistance("Wall_Rock", reach);
+                    AudioManager.Instance?.PlayByDistance("Wall_Rock", distanceToWall);
                     break;
                 case "LooseWall": Debug.Log("LooseWall");
-                    AudioManager.Instance?.PlayByDistance("Wall_Loose", reach);
+                    AudioManager.Instance?.PlayByDistance("Wall_Loose", distanceToWall);
                     break;
                 case "EnergyWall": Debug.Log("EnergyWall");
-                    AudioManager.Instance?.PlayByDistance("Wall_Energy", reach);
+                    AudioManager.Instance?.PlayByDistance("Wall_Energy", distanceToWall);
                     break;
             }
         }
@@ -142,14 +145,15 @@ namespace Play
             var hit = default(RaycastHit2D);
             if (reach > 0f) hit = Physics2D.Raycast(origin, dir, reach, hitMask);
 
+            // 命中点在碰撞面上，往角色方向收一点，保证 WorldToCell 落在被击中的那一格
+            var hitPoint =hit.point - dir * 0.02f;
+            
             if (!hit)
             {
                 Debug.Log("[Collect] 前方没有可采集的物体");
+                EventBus.Publish(new WallCollectedEvent(hit.collider.gameObject, hitPoint));
                 return;
             }
-
-            // 命中点在碰撞面上，往角色方向收一点，保证 WorldToCell 落在被击中的那一格
-            var hitPoint = hit.point - dir * 0.02f;
 
             Debug.Log($"[Collect] 命中 {hit.collider.name}（{hit.collider.GetType().Name}），distance={hit.distance:F2}，hitPoint={hitPoint}", hit.collider);
             

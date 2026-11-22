@@ -1,4 +1,6 @@
+using System;
 using Play.DestructibleWall;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -35,8 +37,11 @@ namespace Play.General
         private SpriteRenderer _arrow;
         private float _retryTimer;
 
+        [SerializeField]
+        public Vector3 offset;
+
         /// <summary>方向计算的起点：玩家中心，不是箭头自己的位置。</summary>
-        private Vector3 OriginPosition => origin != null ? origin.position : transform.position;
+        private Vector3 OriginPosition => origin != null ? origin.position + offset : transform.position + offset;
 
         private void Awake()
         {
