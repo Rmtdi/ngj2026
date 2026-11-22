@@ -13,7 +13,7 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Collect",
@@ -64,6 +64,15 @@
                     "name": "Right",
                     "type": "Button",
                     "id": "08e06d75-29eb-4456-9b91-dd0efc90f842",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Map",
+                    "type": "Button",
+                    "id": "c3b3a714-c24a-4e8b-bc8d-042ce07d97da",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -189,6 +198,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a83bcb4a-afbc-41f5-a4c1-92bfbdbed686",
+                    "path": "<Keyboard>/m",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Map",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

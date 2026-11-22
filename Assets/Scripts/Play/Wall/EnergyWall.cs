@@ -12,7 +12,7 @@ namespace Play.DestructibleWall
     public class EnergyWall : CollectableWall
     {
         [Header("能源")]
-        [Tooltip("采集后是否让能源消失（tilemap 墙删格 / 普通物体取消激活）")]
+        [Tooltip("采集后是否让能源消失（整个物体取消激活）")]
         [SerializeField]
         private bool disappearAfterCollected = true;
 
@@ -27,20 +27,21 @@ namespace Play.DestructibleWall
 
         protected override void OnCollected(Vector3 hitPoint)
         {
+            //TODO：播放胜利音频
+            //AudioManager.Instance.Play("");
             EventBus.Publish(new EnergyCollectedEvent(hitPoint));
 
-            if (disappearAfterCollected) BreakSelf(hitPoint);
+            if (disappearAfterCollected) BreakSelf();
 
             Debug.Log($"[EnergyWall] {name} 被采集，加载下一关：{nextScene}", this);
-            
-            if (SceneLoader.Instance == null)
+
+            var loader = SceneLoader.Instance;
+            if (loader == null)
             {
                 Debug.LogError("[EnergyWall] 找不到 SceneLoader，无法切关。", this);
                 return;
             }
-
-            // 一句就够：LoadScene 会自动卸载当前场景
-            SceneLoader.Instance.LoadScene(nextScene, nextSpawnPosition);
+            loader.LoadScene(nextScene, nextSpawnPosition);
         }
     }
 }

@@ -27,9 +27,11 @@ namespace Play
         private float collectDistance = 1f;
 
         //用栈来存输入的按键，保证后输入的为当前方向
-        private readonly List<MoveDirection> _pressed = new List<MoveDirection>();
+        public readonly List<MoveDirection> pressed = new List<MoveDirection>();
         private MoveDirection? _current;
         private Vector3 _faceDir = Vector3.down; // 默认朝下，松手后保持上一次朝向
+        public bool isMove;
+        
         private Collider2D _selfCollider;
 
         public void OnEnable()
@@ -45,7 +47,6 @@ namespace Play
         public void Awake()
         {
             _inputControler = new PlayerInputController();
-            // 用基类 Collider2D，Box / Circle / Capsule 都能取到
             _selfCollider = GetComponent<Collider2D>();
             rb = GetComponent<Rigidbody2D>();
 
@@ -68,6 +69,11 @@ namespace Play
                 case MoveDirection.Left: _faceDir = new Vector3(-1, 0); break;
                 case MoveDirection.Right: _faceDir = new Vector3(1, 0); break;
             }
+
+            if (_faceDir != Vector3.zero)
+                isMove = true;
+            else
+                isMove = false;
             rb.velocity = _current.HasValue ? (Vector2)_faceDir * speed : Vector2.zero;
         }
 
@@ -114,13 +120,13 @@ namespace Play
             switch (hit.collider.tag)
             {
                 case "RockWall": Debug.Log("RockWall");
-                    AudioManager.Instance.PlayByDistance("Wall_Rock", reach);
+                    AudioManager.Instance?.PlayByDistance("Wall_Rock", reach);
                     break;
                 case "LooseWall": Debug.Log("LooseWall");
-                    AudioManager.Instance.PlayByDistance("Wall_Loose", reach);
+                    AudioManager.Instance?.PlayByDistance("Wall_Loose", reach);
                     break;
                 case "EnergyWall": Debug.Log("EnergyWall");
-                    AudioManager.Instance.PlayByDistance("Wall_Energy", reach);
+                    AudioManager.Instance?.PlayByDistance("Wall_Energy", reach);
                     break;
             }
         }
@@ -146,7 +152,7 @@ namespace Play
             var hitPoint = hit.point - dir * 0.02f;
 
             Debug.Log($"[Collect] 命中 {hit.collider.name}（{hit.collider.GetType().Name}），distance={hit.distance:F2}，hitPoint={hitPoint}", hit.collider);
-
+            
             // 只把“打中的是哪一个”放进事件，由每面墙自己决定要不要响应
             EventBus.Publish(new WallCollectedEvent(hit.collider.gameObject, hitPoint));
         }
@@ -168,16 +174,15 @@ namespace Play
 
         void Press(MoveDirection dir)
         {
-            _pressed.Remove(dir); // 重复按下（比如 W 和 ↑ 都映射 Up）也保证它排到最后
-            _pressed.Add(dir);
+            pressed.Remove(dir); // 重复按下（比如 W 和 ↑ 都映射 Up）也保证它排到最后
+            pressed.Add(dir);
             _current = dir;
         }
 
         void Release(MoveDirection dir)
         {
-            _pressed.Remove(dir);
-            _current = _pressed.Count > 0 ? _pressed[_pressed.Count - 1] : (MoveDirection?)null;
+            pressed.Remove(dir);
+            _current = pressed.Count > 0 ? pressed[pressed.Count - 1] : (MoveDirection?)null;
         }
-        
     }
 }

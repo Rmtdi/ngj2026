@@ -70,18 +70,6 @@ namespace Play.General
             EnsureFadeCanvas();
         }
 
-        /// <summary>场景里忘了放 SceneLoader 时兜底创建一个，避免调用方空引用。</summary>
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        private static void EnsureExists()
-        {
-            if (Instance != null) return;
-
-            var go = new GameObject("[SceneLoader]（自动创建）");
-            go.AddComponent<SceneLoader>();
-
-            Debug.LogWarning("[SceneLoader] 场景里没有 SceneLoader，已自动创建。建议在场景里手动放一个并配置参数。", go);
-        }
-
         // ------------------------------------------------------------------
         // 公开接口
         // ------------------------------------------------------------------

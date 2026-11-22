@@ -39,7 +39,6 @@ namespace Play.General
             // 3.2 三、行走时不同地面发出的声音
             public const string GroundRock = "Ground_Rock";       // 普通岩石
             public const string GroundWetRock = "Ground_WetRock"; // 积水岩石
-            public const string GroundWater = "Ground_Water";     // 水
             public const string GroundSand = "Ground_Sand";       // 沙地
             public const string GroundCliff = "Ground_Cliff";     // 悬崖边 → 系统警告
 
@@ -121,9 +120,6 @@ namespace Play.General
         [SerializeField, Tooltip("1 个身位等于多少世界单位。1 格 = 1 单位时保持 1 即可")]
         private float unitsPerBody = 1f;
 
-        [SerializeField, Tooltip("站在水地面时屏蔽除【水】以外的探测声（策划案 3.2 三.3）")]
-        private bool muteDetectOnWater = true;
-
         private readonly Dictionary<string, Sound> _lookup =
             new Dictionary<string, Sound>(StringComparer.OrdinalIgnoreCase);
 
@@ -137,7 +133,6 @@ namespace Play.General
         private int _nextVoice;
 
         private AudioSource _footstepSource;
-        private string _currentGround;
 
         private Coroutine _markerRoutine;
         private Vector3 _markerPosition;
@@ -162,9 +157,6 @@ namespace Play.General
             set => AudioListener.pause = value;
         }
 
-        /// <summary>当前脚下的地面类型（由 PlayFootstep 传入）。</summary>
-        public string CurrentGround => _currentGround;
-
         /// <summary>场上是否已经有一个标记点在发声（策划案限制最多 1 个）。</summary>
         public bool MarkerActive => _markerRoutine != null;
 
@@ -172,18 +164,6 @@ namespace Play.General
         {
             AudioListener.volume = masterVolume;
             Rebuild();
-        }
-
-        /// <summary>场景里忘了放 AudioManager 时兜底创建一个，避免调用方空引用。</summary>
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        private static void EnsureExists()
-        {
-            if (Instance != null) return;
-
-            var go = new GameObject("[AudioManager]（自动创建）");
-            go.AddComponent<AudioManager>();
-
-            Debug.LogWarning("[AudioManager] 场景里没有 AudioManager，已自动创建空实例（没有任何音频）。请在场景中创建并配置音频表。", go);
         }
 
         /// <summary>重新读取 Inspector 里的音频表（运行时改了列表可以手动调）。</summary>
@@ -278,17 +258,9 @@ namespace Play.General
 
         /// <summary>
         /// 3.3 二、探测：声波碰到第一个物体后，按“命中点到玩家的距离”播放该材质的声音。
-        /// 策划案 3.2 三.3：站在水面上时收不到除【水】以外的声音。
         /// </summary>
         public bool PlayDetect(string wallKey, Vector3 hitPosition, float pitchScale = 1f)
         {
-            if (muteDetectOnWater
-                && string.Equals(_currentGround, Keys.GroundWater, StringComparison.OrdinalIgnoreCase)
-                && !string.Equals(wallKey, Keys.WallWater, StringComparison.OrdinalIgnoreCase))
-            {
-                return false;
-            }
-
             return PlayByDistanceAt(wallKey, hitPosition, pitchScale);
         }
 
@@ -302,8 +274,6 @@ namespace Play.General
         /// </summary>
         public void PlayFootstep(string groundKey, float volumeScale = 1f)
         {
-            _currentGround = groundKey;
-
             if (!TryGet(groundKey, out var sound))
             {
                 StopFootstep();

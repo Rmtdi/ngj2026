@@ -7,34 +7,24 @@ namespace Play.DestructibleWall
     /// <summary>
     /// 可采集墙体的抽象模板类。
     ///
-    /// 它负责所有"被 R 采集"的公共流程，子类只关心"采集之后发生什么"：
+    /// 负责所有"被 R 采集"的公共流程，子类只关心"采集之后发生什么"：
     ///   1. 订阅 / 退订 WallCollectedEvent（EventBus 是静态的，必须成对）
-    ///   2. 过滤掉"打中的不是我"的事件，避免一张图上的墙一起响应
-    ///   3. 提供命中格查找、删格、补碰撞体这些可复用逻辑
+    ///   2. 过滤掉"打中的不是我"的事件，避免整张图的墙一起响应
+    ///   3. 提供 <see cref="BreakSelf"/>：破坏整面墙
     ///
-    /// 子类只要重写 <see cref="OnCollected"/>：
-    ///   LooseWall  → 删掉命中的那一格（塌方）
-    ///   EnergyWall → 通知上层"拿到能源了"（胜利）
-    ///   以后的岩浆壁 / 电石 / 萤石也都继承它。
+    /// 注意：破坏方式是「整个 GameObject 取消激活」，不是删掉一格 tile。
+    /// 删单格会在墙上留下一个四周都是碰撞体的小洞，角色贴着洞口时很容易卡住，
+    /// 整面墙关掉后碰撞体一起消失，不会出现"破坏完反而动不了"。
     /// </summary>
     public abstract class CollectableWall : MonoBehaviour
     {
         [Header("命中检测")]
-        [Tooltip("身上没有 Collider2D 时自动补一个 TilemapCollider2D，否则 R 的射线打不到这面墙")]
+        [Tooltip("tilemap 墙上没有 Collider2D 时自动补一个，否则 R 的射线打不到这面墙")]
         [SerializeField]
         private bool ensureCollider = true;
 
-        [Header("删格容错")]
-        [Tooltip("命中点所在格没有 tile 时，向周围再搜几格（0 = 不搜）。一般 1 就够")]
-        [SerializeField]
-        private int cellSearchRadius = 1;
-
-        /// <summary>墙体的 Tilemap；不是 tilemap 画的墙时为 null。</summary>
-        protected Tilemap Tilemap { get; private set; }
-
         protected virtual void Awake()
         {
-            Tilemap = GetComponent<Tilemap>();
             EnsureCollider();
         }
 
@@ -45,7 +35,7 @@ namespace Play.DestructibleWall
 
         protected virtual void OnDisable()
         {
-            // 一定要退订：EventBus 是静态的，对象销毁后还留着旧的委托会报空引用
+            // 一定要退订：EventBus 是静态的，对象销毁/隐藏后还留着旧委托会报空引用
             EventBus.Unsubscribe<WallCollectedEvent>(OnWallCollected);
         }
 
@@ -69,73 +59,19 @@ namespace Play.DestructibleWall
         }
 
         /// <summary>
-        /// 默认的"摧毁自己"：tilemap 墙只删命中的那一格，普通物体才取消激活。
-        /// 绝不对 tilemap 墙用 SetActive(false)，那会把整面墙一起关掉。
+        /// 破坏整面墙：整个 GameObject 取消激活，碰撞体、渲染一起消失。
+        /// 这样不会在墙上留下能把角色卡住的小洞。
         /// </summary>
-        /// <returns>是否真的处理掉了</returns>
-        protected bool BreakSelf(Vector3 hitPoint)
+        protected void BreakSelf()
         {
-            if (Tilemap != null) return EraseHitTile(hitPoint);
-
             gameObject.SetActive(false);
-            return true;
         }
 
-        /// <summary>删除命中点所在的那一格 tile。返回 false 表示没找到对应的格子。</summary>
-        protected bool EraseHitTile(Vector3 hitPoint)
-        {
-            if (Tilemap == null) return false;
-
-            if (!TryGetCollectedCell(hitPoint, out var cell))
-            {
-                Debug.LogWarning($"[{GetType().Name}] {name} 在命中点 {hitPoint} 附近没有找到 tile，忽略这次采集。", this);
-                return false;
-            }
-
-            // 只删这一格：SetTile 会让 TilemapCollider2D 自动重算碰撞，GameObject 与其它格子都保留
-            Tilemap.SetTile(cell, null);
-            return true;
-        }
-
-        /// <summary>用命中点找要删的那一格；命中点正好压在格子边界上时，退化为找最近的有 tile 的格子。</summary>
-        protected bool TryGetCollectedCell(Vector3 hitPoint, out Vector3Int cell)
-        {
-            var hitCell = Tilemap.WorldToCell(hitPoint);
-            if (Tilemap.HasTile(hitCell))
-            {
-                cell = hitCell;
-                return true;
-            }
-
-            var radius = Mathf.Max(0, cellSearchRadius);
-            var best = hitCell;
-            var bestSqr = float.MaxValue;
-            var found = false;
-
-            for (var dx = -radius; dx <= radius; dx++)
-            {
-                for (var dy = -radius; dy <= radius; dy++)
-                {
-                    var candidate = new Vector3Int(hitCell.x + dx, hitCell.y + dy, hitCell.z);
-                    if (!Tilemap.HasTile(candidate)) continue;
-
-                    var sqr = (Tilemap.GetCellCenterWorld(candidate) - hitPoint).sqrMagnitude;
-                    if (sqr >= bestSqr) continue;
-
-                    bestSqr = sqr;
-                    best = candidate;
-                    found = true;
-                }
-            }
-
-            cell = best;
-            return found;
-        }
-
-        /// <summary>tilemap 墙没挂 Collider2D 时兜底补一个，否则射线打不到。</summary>
+        /// <summary>tilemap 墙漏挂 Collider2D 时兜底补一个，否则射线打不到。</summary>
         protected void EnsureCollider()
         {
-            if (!ensureCollider || Tilemap == null) return;
+            if (!ensureCollider) return;
+            if (GetComponent<Tilemap>() == null) return;
             if (GetComponent<Collider2D>() != null) return;
 
             gameObject.AddComponent<TilemapCollider2D>();
